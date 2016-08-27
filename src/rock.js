@@ -5,33 +5,39 @@ import { Projectile } from './projectile';
 
 export function Rock(scene) {
   const MAX_DISTANCE = 300;
-  return InventoryItem(
+  const inventoryItem = InventoryItem(
     Sprite(scene, '/imgs/rock.png', null, null, 24, 24),
-    (item, coordinates) => {
-      let object = scene
-                     .findObjectsAt(coordinates)
-                     .filter(object => object !== item)[0];
+    onUse
+  );
 
-      if (object != null) {
-        console.log("rock encountered object: ", object, item);
-      }
+  return inventoryItem;
 
-      let projectileSprite = item.getSprite().copy();
-      let player = scene.getPlayer();
-      projectileSprite.setCenterX(player.getCenterX());
-      projectileSprite.setCenterY(player.getCenterY());
-      let difference = coordinates.x - projectileSprite.getCenterX();
-      if (Math.abs(difference) > MAX_DISTANCE) {
-        coordinates.x = projectileSprite.getCenterX() + MAX_DISTANCE * Math.sign(difference);
-      }
+  function onUse(item, coordinates) {
+    let object = scene
+                   .findObjectsAt(coordinates)
+                   .filter(object => object !== item)[0];
 
-      scene.add(
-        Projectile(
-          projectileSprite,
-          Vector(coordinates.x, coordinates.y),
-          () => console.log("hit!")
-        )
-      );
+    if (object != null) {
+      console.log("rock encountered object: ", object, item);
     }
-  )
+
+    let projectileSprite = item.getSprite().copy();
+    let player = scene.getPlayer();
+    projectileSprite.setCenterX(player.getCenterX());
+    projectileSprite.setCenterY(player.getCenterY());
+    let difference = coordinates.x - projectileSprite.getCenterX();
+    if (Math.abs(difference) > MAX_DISTANCE) {
+      coordinates.x = projectileSprite.getCenterX() + MAX_DISTANCE * Math.sign(difference);
+    }
+
+    scene.add(
+      Projectile(
+        projectileSprite,
+        Vector(coordinates.x, coordinates.y),
+        () => console.log("hit!")
+      )
+    );
+
+    scene.getInventory().remove(inventoryItem);
+  }
 }

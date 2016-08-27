@@ -17,7 +17,8 @@ export function Scene(canvas) {
     findObjectsAt,
     add,
     remove,
-    getPlayer
+    getPlayer,
+    getInventory
   };
 
   const FLOOR = 200;
@@ -130,4 +131,6 @@ export function Scene(canvas) {
   }
 
   function getPlayer() { return player };
+
+  function getInventory() { return inventory; }
 }

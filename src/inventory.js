@@ -4,13 +4,14 @@ export function Inventory(maxItems) {
   return {
     push,
     concat,
-    find
+    find,
+    remove
   };
 
   function push(item) {
     if (items.length < maxItems) {
-      items.push(item);
-      item.setIndex(items.length - 1);
+      items = items.concat([item]);
+      calculateIndexes();
       return true;
     }
   }
@@ -21,5 +22,14 @@ export function Inventory(maxItems) {
 
   function find(fn) {
     return items.find(fn);
+  }
+
+  function remove(item) {
+    items = items.filter(i => i !== item);
+    calculateIndexes();
+  }
+
+  function calculateIndexes() {
+    items.forEach((item, index) => item.setIndex(index));
   }
 }
