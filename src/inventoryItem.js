@@ -12,7 +12,8 @@ export function InventoryItem(sprite, onUse) {
     name: 'InventoryItem',
     setIndex,
     trigger,
-    isDragging
+    isDragging,
+    getSprite
   });
 
   return inventoryItem;
@@ -43,4 +44,5 @@ export function InventoryItem(sprite, onUse) {
   }
 
   function isDragging() { return dragging; }
+  function getSprite() { return sprite; }
 }

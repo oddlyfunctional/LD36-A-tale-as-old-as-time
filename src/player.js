@@ -1,8 +1,10 @@
 import { Sprite } from './sprite';
 import { Vector } from './vector';
+import { Body } from './body';
 
-export function Player(x, y, speed = 3) {
+export function Player(x, y) {
   let sprite = Sprite('/imgs/caveman.png', x, y, 60, 80);
+  let body = Body(sprite);
   let target, destinationCallback;
 
   return Object.assign({}, sprite, {
@@ -21,11 +23,7 @@ export function Player(x, y, speed = 3) {
         target = undefined;
         destinationCallback && destinationCallback();
       } else {
-        let difference = target.subtract(sprite.getCenterVector());
-        let direction = difference.normalize();
-        let movement = direction.dotProduct(speed);
-
-        sprite.move(movement.getX(), movement.getY());
+        body.moveBy(body.movementTo(target));
       }
     }
 

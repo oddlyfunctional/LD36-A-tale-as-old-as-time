@@ -18,12 +18,17 @@ export function Sprite(spritesheet, x, y, width, height) {
     render,
     getX,
     getY,
+    getCenterX,
+    getCenterY,
+    getWidth,
+    getHeight,
     setCenterX,
     setCenterY,
     getCenterVector,
     contains,
     getOpaqueObject,
-    trigger
+    trigger,
+    copy
   };
 
   function move(deltaX, deltaY) {
@@ -40,6 +45,10 @@ export function Sprite(spritesheet, x, y, width, height) {
 
   function getX() { return x; }
   function getY() { return y; }
+  function getCenterX() { return getCenterVector().getX(); }
+  function getCenterY() { return getCenterVector().getY(); }
+  function getWidth() { return width; }
+  function getHeight() { return height; }
 
   function setCenterX(centerX) {
     x = centerX - width / 2;
@@ -71,4 +80,8 @@ export function Sprite(spritesheet, x, y, width, height) {
   }
 
   function trigger() {}
+
+  function copy() {
+    return Sprite(spritesheet, x, y, width, height);
+  }
 }

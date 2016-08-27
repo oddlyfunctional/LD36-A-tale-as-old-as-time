@@ -1,5 +1,7 @@
 import { InventoryItem } from './inventoryItem';
 import { Sprite } from './sprite';
+import { Vector } from './vector';
+import { Projectile } from './projectile';
 
 export function Rock(scene) {
   return InventoryItem(
@@ -12,6 +14,18 @@ export function Rock(scene) {
       if (object != null) {
         console.log("rock encountered object: ", object, item);
       }
+
+      let projectileSprite = item.getSprite().copy();
+      let player = scene.getPlayer();
+      projectileSprite.setCenterX(player.getCenterX());
+      projectileSprite.setCenterY(player.getCenterY());
+
+      scene.add(
+        Projectile(
+          projectileSprite,
+          Vector(coordinates.x, coordinates.y)
+        )
+      );
     }
   )
 }

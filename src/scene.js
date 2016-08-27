@@ -4,22 +4,22 @@ import { Sprite } from './sprite';
 import { Inventory } from './inventory';
 import { InventoryItem } from './inventoryItem';
 import { Rock } from './rock';
+import { Tiger } from './tiger';
 import { Illuminated } from './vendors/illuminated';
 const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
 
 export function Scene(canvas) {
-  const player = Player(0, 0);
+  const FLOOR = 200;
+  const player = Player(0, FLOOR);
   const inventory = Inventory(4);
-  const rock = Item(Sprite('/imgs/rock.png', 200, 300, 24, 24), (item) => {
+  const rock = Item(Sprite('/imgs/rock.png', 100, FLOOR, 24, 24), (item) => {
     player.setTarget(item.getCenterVector());
     player.setDestinationCallback(() => {
       inventory.push(Rock(scene));
     });
   });
-  let targets = [rock]; 
-  let objects = [player, rock];
 
-  let lightSources = [createLightSource(200, 300)];
+  let lightSources = [createLightSource(200, FLOOR)];
 
   //let lightings = [
   //  new Lighting({
@@ -31,13 +31,20 @@ export function Scene(canvas) {
   let darkmask = new DarkMask({ 
     lights: lightSources
   })
+
+  const tiger = Tiger(400, FLOOR, player, lightSources);
+
+  let targets = [rock]; 
+  let objects = [player, rock, tiger];
   
   let scene = {
     update,
     render,
     onMouseDown,
     onMouseMove,
-    findObjectsAt
+    findObjectsAt,
+    add,
+    getPlayer
   };
 
   return scene;
@@ -112,4 +119,10 @@ export function Scene(canvas) {
              .filter(object => object !== player)
              .filter(object => object.contains(coordinates));
   }
+
+  function add(object) {
+    objects.push(object);
+  }
+
+  function getPlayer() { return player };
 }
