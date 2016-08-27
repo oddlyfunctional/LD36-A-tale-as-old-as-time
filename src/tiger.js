@@ -3,7 +3,9 @@ import { Body } from './body';
 import { Vector } from './vector';
 
 export function Tiger(scene, x, y, player, lightSources) {
-  let sprite = Sprite(scene, '/imgs/tiger.png', x, y, 120, 80);
+  const height = 80;
+  y -= height;
+  let sprite = Sprite(scene, '/imgs/tiger.png', x, y, 120, height);
   let body = Body(sprite, 6);
 
   return Object.assign({}, sprite, {

@@ -3,7 +3,9 @@ import { Vector } from './vector';
 import { Body } from './body';
 
 export function Player(scene, x, y) {
-  let sprite = Sprite(scene, '/imgs/caveman.png', x, y, 60, 80);
+  const height = 80;
+  y -= height;
+  let sprite = Sprite(scene, '/imgs/caveman.png', x, y, 60, height);
   let body = Body(sprite);
   let target, destinationCallback;
 
@@ -19,7 +21,7 @@ export function Player(scene, x, y) {
 
   function update(timeElapsed) {
     if (target) {
-      if (target.subtract(sprite.getCenterVector()).magnitude() < 2.0) {
+      if (Math.abs(target.subtract(sprite.getCenterVector()).getX()) < 2.0) {
         target = undefined;
         destinationCallback && destinationCallback();
       } else {

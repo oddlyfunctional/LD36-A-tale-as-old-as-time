@@ -23,7 +23,7 @@ export function Scene(canvas) {
   const FLOOR = 200;
   const player = Player(scene, 0, FLOOR);
   const inventory = Inventory(4);
-  const rock = Item(Sprite(scene, '/imgs/rock.png', 100, FLOOR, 24, 24), (item) => {
+  const rock = Item(Sprite(scene, '/imgs/rock.png', 100, FLOOR - 24, 24, 24), (item) => {
     player.setTarget(item.getCenterVector());
     player.setDestinationCallback(() => {
       inventory.push(Rock(scene));
