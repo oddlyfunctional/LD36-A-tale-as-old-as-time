@@ -3,25 +3,22 @@ import { Vector } from './vector';
 
 export function Player(x, y, speed = 3) {
   let sprite = Sprite('/imgs/caveman.png', x, y, 60, 80);
-  let target;
+  let target, destinationCallback;
 
-  return {
+  return Object.assign({}, sprite, {
+    name: 'Player',
     update,
     render,
     onMouseDown,
-
-    move: sprite.move,
-    getX: sprite.getX,
-    getY: sprite.getY,
-    getCenterVector: sprite.getCenterVector,
-    contains: sprite.contains,
-    getOpaqueObject: sprite.getOpaqueObject
-  };
+    trigger,
+    setDestinationCallback
+  });
 
   function update(timeElapsed) {
     if (target) {
       if (target.subtract(sprite.getCenterVector()).magnitude() < 2.0) {
         target = undefined;
+        destinationCallback && destinationCallback();
       } else {
         let difference = target.subtract(sprite.getCenterVector());
         let direction = difference.normalize();
@@ -40,5 +37,12 @@ export function Player(x, y, speed = 3) {
 
   function onMouseDown(coordinates) {
     target = Vector(coordinates.x, coordinates.y);
+    setDestinationCallback();
+  }
+
+  function trigger() {}
+
+  function setDestinationCallback(callback) {
+    destinationCallback = callback;
   }
 }
