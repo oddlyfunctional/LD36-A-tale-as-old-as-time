@@ -11,6 +11,7 @@ export function Scene(canvas) {
   const player = Player(0, 0);
   const inventory = Inventory(4);
   const rock = Item(Sprite('/imgs/rock.png', 200, 300, 24, 24), (item) => {
+    player.setTarget(item.getCenterVector());
     player.setDestinationCallback(() => {
       inventory.push(Rock(scene));
     });
@@ -56,13 +57,16 @@ export function Scene(canvas) {
   }
 
   function onMouseDown(coordinates) {
-    player.onMouseDown(coordinates);
-
     let dragged = inventory.find(item => item.isDragging());
     if (dragged) {
       dragged.trigger('drop', coordinates);
     } else {
-      findObjectsAt(coordinates).slice(0, 1).map(object => object.trigger('click', coordinates));
+      let clicked = findObjectsAt(coordinates)[0];
+      if (clicked) {
+        clicked.trigger('click', coordinates);
+      } else {
+        player.onMouseDown(coordinates);
+      }
     }
   }
 

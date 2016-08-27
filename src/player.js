@@ -11,6 +11,7 @@ export function Player(x, y, speed = 3) {
     render,
     onMouseDown,
     trigger,
+    setTarget,
     setDestinationCallback
   });
 
@@ -41,6 +42,8 @@ export function Player(x, y, speed = 3) {
   }
 
   function trigger() {}
+
+  function setTarget(newTarget) { target = newTarget; }
 
   function setDestinationCallback(callback) {
     destinationCallback = callback;
