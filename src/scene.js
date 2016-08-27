@@ -9,10 +9,21 @@ import { Illuminated } from './vendors/illuminated';
 const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
 
 export function Scene(canvas) {
+  const scene = {
+    update,
+    render,
+    onMouseDown,
+    onMouseMove,
+    findObjectsAt,
+    add,
+    remove,
+    getPlayer
+  };
+
   const FLOOR = 200;
-  const player = Player(0, FLOOR);
+  const player = Player(scene, 0, FLOOR);
   const inventory = Inventory(4);
-  const rock = Item(Sprite('/imgs/rock.png', 100, FLOOR, 24, 24), (item) => {
+  const rock = Item(Sprite(scene, '/imgs/rock.png', 100, FLOOR, 24, 24), (item) => {
     player.setTarget(item.getCenterVector());
     player.setDestinationCallback(() => {
       inventory.push(Rock(scene));
@@ -32,20 +43,10 @@ export function Scene(canvas) {
     lights: lightSources
   })
 
-  const tiger = Tiger(400, FLOOR, player, lightSources);
+  const tiger = Tiger(scene, 400, FLOOR, player, lightSources);
 
   let targets = [rock]; 
   let objects = [player, rock, tiger];
-  
-  let scene = {
-    update,
-    render,
-    onMouseDown,
-    onMouseMove,
-    findObjectsAt,
-    add,
-    getPlayer
-  };
 
   return scene;
 
@@ -121,7 +122,11 @@ export function Scene(canvas) {
   }
 
   function add(object) {
-    objects.push(object);
+    objects = objects.concat([object]);
+  }
+
+  function remove(object) {
+    objects = objects.filter(obj => !obj.isEqual(object));
   }
 
   function getPlayer() { return player };

@@ -2,7 +2,7 @@ import { Vector } from './vector';
 import { Illuminated } from './vendors/illuminated';
 const { Vec2, PolygonObject } = Illuminated;
 
-export function Sprite(spritesheet, x, y, width, height) {
+export function Sprite(scene, spritesheet, x, y, width, height) {
   let image = new Image();
   let loaded = false;
   image.onload = function() {
@@ -11,7 +11,7 @@ export function Sprite(spritesheet, x, y, width, height) {
 
   image.src = spritesheet;
 
-  return {
+  const sprite = {
     name: 'Sprite',
     move,
     update,
@@ -28,8 +28,13 @@ export function Sprite(spritesheet, x, y, width, height) {
     contains,
     getOpaqueObject,
     trigger,
-    copy
+    copy,
+    destroy,
+    isEqual,
+    getSprite
   };
+
+  return sprite;
 
   function move(deltaX, deltaY) {
     x += deltaX;
@@ -82,6 +87,18 @@ export function Sprite(spritesheet, x, y, width, height) {
   function trigger() {}
 
   function copy() {
-    return Sprite(spritesheet, x, y, width, height);
+    return Sprite(scene, spritesheet, x, y, width, height);
+  }
+
+  function destroy() {
+    scene.remove(sprite);
+  }
+
+  function getSprite() {
+    return sprite;
+  }
+
+  function isEqual(object) {
+    return object.getSprite() == getSprite();
   }
 }

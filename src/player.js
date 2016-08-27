@@ -2,8 +2,8 @@ import { Sprite } from './sprite';
 import { Vector } from './vector';
 import { Body } from './body';
 
-export function Player(x, y) {
-  let sprite = Sprite('/imgs/caveman.png', x, y, 60, 80);
+export function Player(scene, x, y) {
+  let sprite = Sprite(scene, '/imgs/caveman.png', x, y, 60, 80);
   let body = Body(sprite);
   let target, destinationCallback;
 

@@ -2,8 +2,8 @@ import { Sprite } from './sprite';
 import { Body } from './body';
 import { Vector } from './vector';
 
-export function Tiger(x, y, player, lightSources) {
-  let sprite = Sprite('/imgs/tiger.png', x, y, 120, 80);
+export function Tiger(scene, x, y, player, lightSources) {
+  let sprite = Sprite(scene, '/imgs/tiger.png', x, y, 120, 80);
   let body = Body(sprite, 6);
 
   return Object.assign({}, sprite, {

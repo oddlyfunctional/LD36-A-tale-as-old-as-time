@@ -1,4 +1,4 @@
-export function Projectile(sprite, target) {
+export function Projectile(sprite, target, onHit) {
   let x1 = sprite.getX(),
       y1 = sprite.getY(),
       x2 = target.getX(),
@@ -15,7 +15,11 @@ export function Projectile(sprite, target) {
   });
 
   function update(timeElapsed) {
-    if (Math.abs(x2 - sprite.getX()) < speedX * 2) { return; }
+    if (Math.abs(x2 - sprite.getX()) < speedX * 2) {
+      onHit();
+      sprite.destroy();
+      return;
+    }
     sprite.move(speedX, speedY);
     speedY += gravity;
 

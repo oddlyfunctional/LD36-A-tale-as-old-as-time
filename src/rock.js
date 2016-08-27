@@ -4,8 +4,9 @@ import { Vector } from './vector';
 import { Projectile } from './projectile';
 
 export function Rock(scene) {
+  const MAX_DISTANCE = 300;
   return InventoryItem(
-    Sprite('/imgs/rock.png', null, null, 24, 24),
+    Sprite(scene, '/imgs/rock.png', null, null, 24, 24),
     (item, coordinates) => {
       let object = scene
                      .findObjectsAt(coordinates)
@@ -19,11 +20,16 @@ export function Rock(scene) {
       let player = scene.getPlayer();
       projectileSprite.setCenterX(player.getCenterX());
       projectileSprite.setCenterY(player.getCenterY());
+      let difference = coordinates.x - projectileSprite.getCenterX();
+      if (Math.abs(difference) > MAX_DISTANCE) {
+        coordinates.x = projectileSprite.getCenterX() + MAX_DISTANCE * Math.sign(difference);
+      }
 
       scene.add(
         Projectile(
           projectileSprite,
-          Vector(coordinates.x, coordinates.y)
+          Vector(coordinates.x, coordinates.y),
+          () => console.log("hit!")
         )
       );
     }
