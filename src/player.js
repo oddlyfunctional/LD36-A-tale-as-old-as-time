@@ -16,8 +16,7 @@ export function Player(scene, x, y) {
     render,
     onMouseDown,
     trigger,
-    setTarget,
-    setDestinationCallback
+    setTarget
   });
 
   function update(timeElapsed) {
@@ -33,8 +32,8 @@ export function Player(scene, x, y) {
 
     if (target) {
       if (Math.abs(target.subtract(sprite.getCenterVector()).getX()) < 2.0) {
-        setTarget();
         destinationCallback && destinationCallback();
+        setTarget();
       } else {
         body.moveBy(body.movementTo(target));
       }
@@ -49,14 +48,12 @@ export function Player(scene, x, y) {
 
   function onMouseDown(coordinates) {
     setTarget(Vector(coordinates.x, coordinates.y));
-    setDestinationCallback();
   }
 
   function trigger() {}
 
-  function setTarget(newTarget) { target = newTarget; }
-
-  function setDestinationCallback(callback) {
-    destinationCallback = callback;
+  function setTarget(newTarget, newDestinationCallback) {
+    target = newTarget;
+    destinationCallback = newDestinationCallback;
   }
 }

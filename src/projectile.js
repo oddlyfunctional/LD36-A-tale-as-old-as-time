@@ -1,4 +1,4 @@
-import { Sprite } from './sprite';
+import { Tree } from './tree';
 
 export function Projectile(scene, sprite, target, onHit) {
   let x1 = sprite.getX(),
@@ -23,7 +23,7 @@ export function Projectile(scene, sprite, target, onHit) {
     let hitObjects = scene.overlappingObjectsWith(sprite).filter(object => {
       return !object.isEqual(projectile) &&
              !object.isEqual(scene.getPlayer()) &&
-             object.constructor !== Sprite;
+             object.constructor !== Tree;
     });
 
     if (hitObjects.length || sprite.bottom() >= target.getY()) {

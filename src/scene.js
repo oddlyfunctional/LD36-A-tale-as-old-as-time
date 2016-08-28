@@ -7,6 +7,7 @@ import { InventoryItem } from './inventoryItem';
 import { Rock } from './rock';
 import { PileOfRocks } from './pileOfRocks';
 import { Tiger } from './tiger';
+import { Tree } from './tree';
 import { Illuminated } from './vendors/illuminated';
 const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
 
@@ -43,7 +44,7 @@ export function Scene(canvas) {
     createLightSource(700, FLOOR - 150),
     createLightSource(500, FLOOR - 150)
   ];
-  const trees = lightSources.map(light => Sprite(scene, '/imgs/tree.png', light.position.x - 100, light.position.y - 150, 200, 300));
+  const trees = lightSources.map(light => Tree(scene, light.position.x - 100, light.position.y - 150));
 
   let initialLightSource = lightSources[0];
 
@@ -175,8 +176,8 @@ export function Scene(canvas) {
   }
 
   function lightSourcesInRadius(position, radius) {
-    return lightSources.filter(light => {
-      return Math.abs(light.position.x - position.getX()) <= radius;
-    });
+    return lightSources.filter(
+      light => Math.abs(light.position.x - position.getX()) <= radius
+    );
   }
 }
