@@ -1,5 +1,4 @@
 import { Player } from './player';
-import { Item } from './item';
 import { Sprite } from './sprite';
 import { Vector } from './vector';
 import { Inventory } from './inventory';
@@ -8,6 +7,7 @@ import { Rock } from './rock';
 import { PileOfRocks } from './pileOfRocks';
 import { Tiger } from './tiger';
 import { Tree } from './tree';
+import { TwigTrigger } from './twigTrigger';
 import { Illuminated } from './vendors/illuminated';
 const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
 
@@ -39,12 +39,14 @@ export function Scene(canvas) {
     PileOfRocks(scene, 700, FLOOR)
   ];
 
+  const twigTrigger = TwigTrigger(scene, 500, FLOOR);
+
   const lightSources = [
     createLightSource(1100, FLOOR - 150),
     createLightSource(700, FLOOR - 150),
     createLightSource(500, FLOOR - 150)
   ];
-  const trees = lightSources.map(light => Tree(scene, light.position.x - 100, light.position.y - 150));
+  const trees = lightSources.map(light => Tree(scene, light, light.position.x - 100, light.position.y - 150));
 
   let initialLightSource = lightSources[0];
 
@@ -61,8 +63,8 @@ export function Scene(canvas) {
 
   const tiger = Tiger(scene, 0, FLOOR, player, lightSources);
 
-  let targets = [].concat(pilesOfRocks); 
-  let objects = trees.concat([player, tiger]).concat(pilesOfRocks);
+  let targets = [twigTrigger].concat(pilesOfRocks); 
+  let objects = trees.concat([player, tiger, twigTrigger]).concat(pilesOfRocks);
 
   return scene;
 

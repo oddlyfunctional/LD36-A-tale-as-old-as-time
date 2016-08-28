@@ -1,18 +1,18 @@
 import { Sprite } from './sprite';
-import { Item } from './item';
+import { Trigger } from './trigger';
 import { Rock } from './rock';
 
 export function PileOfRocks(scene, x, y) {
-  const item = Item(Sprite(scene, '/imgs/pile-of-rocks.png', x, y - 50, 100, 50), (item) => {
+  const trigger = Trigger(Sprite(scene, '/imgs/pile-of-rocks.png', x, y - 50, 100, 50), (trigger) => {
     scene.getPlayer().setTarget(
-      item.getCenterVector(),
+      trigger.getCenterVector(),
       () => {
         scene.getInventory().push(Rock(scene));
       }
     );
   });
 
-  return Object.assign({}, item, {
+  return Object.assign({}, trigger, {
     constructor: PileOfRocks
   });
 }

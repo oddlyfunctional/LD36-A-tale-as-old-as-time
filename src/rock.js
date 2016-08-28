@@ -23,8 +23,8 @@ export function Rock(scene) {
     scene.getInventory().remove(rock);
 
     let anotherRock = scene
-                 .findObjectsAt(coordinates)
-                 .find(object => object.constructor === Rock && object !== item);
+                        .findObjectsAt(coordinates)
+                        .find(object => object.constructor === Rock && object !== item);
 
     if (anotherRock) {
       scene.getInventory().remove(anotherRock);
