@@ -4,6 +4,7 @@ import { Vector } from './vector';
 import { Projectile } from './projectile';
 import { Tiger } from './tiger';
 import { PileOfRocks } from './pileOfRocks';
+import { Flint } from './flint';
 
 export function Rock(scene) {
   const MAX_DISTANCE = 300;
@@ -12,15 +13,23 @@ export function Rock(scene) {
     onUse
   );
 
-  return inventoryItem;
+  const rock = Object.assign({}, inventoryItem, {
+    constructor: Rock
+  });
+
+  return rock;
 
   function onUse(item, coordinates) {
-    let object = scene
-                   .findObjectsAt(coordinates)
-                   .filter(object => object !== item)[0];
+    scene.getInventory().remove(rock);
 
-    if (object != null) {
-      console.log("rock encountered object: ", object, item);
+    let anotherRock = scene
+                 .findObjectsAt(coordinates)
+                 .find(object => object.constructor === Rock && object !== item);
+
+    if (anotherRock) {
+      scene.getInventory().remove(anotherRock);
+      scene.getInventory().push(Flint(scene));
+      return;
     }
 
     let projectileSprite = item.getSprite().copy();
@@ -53,7 +62,5 @@ export function Rock(scene) {
         }
       )
     );
-
-    scene.getInventory().remove(inventoryItem);
   }
 }
