@@ -10,12 +10,6 @@ export function Player(scene, x, y) {
   let body = Body(sprite);
   let target, destinationCallback;
 
-  const FLEEING = 'fleeing';
-  const CONTROLLING = 'controlling';
-  let state = CONTROLLING;
-  const fleeTimeout = 1.5 * 1000;
-  let startedFleeing;
-
   return Object.assign({}, sprite, {
     constructor: Player,
     update,
@@ -29,19 +23,21 @@ export function Player(scene, x, y) {
   function update(timeElapsed) {
     let distanceToTiger = scene.getTiger().getCenterVector().subtract(sprite.getCenterVector());
     if (distanceToTiger.magnitude() <= MINIMUM_DISTANCE_TO_TIGER) {
-      setTarget();
-      state = FLEEING;
-      startedFleeing = new Date();
+      target = sprite.getCenterVector().add(
+        Vector(
+          MINIMUM_DISTANCE_TO_TIGER * Math.sign(-distanceToTiger.getX()),
+          0
+        )
+      );
     }
 
-    switch (state) {
-      case CONTROLLING:
-        control();
-        break;
-      case FLEEING:
-        flee();
-        break;
-      default: throw new Error(`Unexpected state: ${state}`);
+    if (target) {
+      if (Math.abs(target.subtract(sprite.getCenterVector()).getX()) < 2.0) {
+        setTarget();
+        destinationCallback && destinationCallback();
+      } else {
+        body.moveBy(body.movementTo(target));
+      }
     }
 
     sprite.update(timeElapsed);
@@ -62,25 +58,5 @@ export function Player(scene, x, y) {
 
   function setDestinationCallback(callback) {
     destinationCallback = callback;
-  }
-
-  function control() {
-    if (!target) { return; }
-
-    if (Math.abs(target.subtract(sprite.getCenterVector()).getX()) < 2.0) {
-      setTarget();
-      destinationCallback && destinationCallback();
-    } else {
-      body.moveBy(body.movementTo(target));
-    }
-  }
-
-  function flee() {
-    if (new Date() - startedFleeing > fleeTimeout) {
-      state = CONTROLLING;
-    } else {
-      let movement = body.movementTo(scene.getTiger().getCenterVector()).dotProduct(-1);
-      body.moveBy(movement);
-    }
   }
 }
