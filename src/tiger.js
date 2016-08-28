@@ -11,7 +11,7 @@ export function Tiger(scene, x, y, player, lightSources) {
   const CHASING = 'chasing';
   const FLEEING = 'fleeing';
   let state = CHASING;
-  const fleeTimeout = 1.5 * 1000;
+  const fleeTimeout = 2.0 * 1000;
   let startedFleeing;
 
   return Object.assign({}, sprite, {
@@ -39,10 +39,10 @@ export function Tiger(scene, x, y, player, lightSources) {
     let newCenter = movement.add(sprite.getCenterVector());
 
     if (
-      !lightSources.find(light => {
+      !lightSources.filter(light => light.enabled).find(light => {
         let lightPosition = new Vector(light.position.x, light.position.y);
-        let distance = lightPosition.subtract(newCenter).magnitude() - radius(sprite);
-        return distance < light.distance;
+        let distance = Math.abs(lightPosition.getX() - newCenter.getX()) - radius(sprite);
+        return distance - 20 < light.distance;
       })
     ) {
       body.moveBy(movement);

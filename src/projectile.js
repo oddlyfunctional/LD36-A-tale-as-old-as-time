@@ -1,4 +1,6 @@
-export function Projectile(sprite, target, onHit) {
+import { Sprite } from './sprite';
+
+export function Projectile(scene, sprite, target, onHit) {
   let x1 = sprite.getX(),
       y1 = sprite.getY(),
       x2 = target.getX(),
@@ -10,14 +12,22 @@ export function Projectile(sprite, target, onHit) {
   let gravity = 1;
   let speedY = - time * gravity / 2;
 
-  return Object.assign({}, sprite, {
+  const projectile = Object.assign({}, sprite, {
     constructor: Projectile,
     update
   });
 
+  return projectile;
+
   function update(timeElapsed) {
-    if (Math.abs(x2 - sprite.getX()) < Math.abs(speedX * 2)) {
-      onHit();
+    let hitObjects = scene.overlappingObjectsWith(sprite).filter(object => {
+      return !object.isEqual(projectile) &&
+             !object.isEqual(scene.getPlayer()) &&
+             object.constructor !== Sprite;
+    });
+
+    if (hitObjects.length || sprite.bottom() >= target.getY()) {
+      onHit(hitObjects);
       sprite.destroy();
       return;
     }

@@ -5,6 +5,7 @@ import { Vector } from './vector';
 import { Inventory } from './inventory';
 import { InventoryItem } from './inventoryItem';
 import { Rock } from './rock';
+import { PileOfRocks } from './pileOfRocks';
 import { Tiger } from './tiger';
 import { Illuminated } from './vendors/illuminated';
 const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
@@ -22,22 +23,29 @@ export function Scene(canvas) {
     getPlayer,
     getTiger,
     getInventory,
-    getCanvas
+    getCanvas,
+    overlappingObjectsWith,
+    lightSourcesInRadius
   };
 
-  const FLOOR = 200;
+  const FLOOR = 350;
   const player = Player(scene, 600, FLOOR);
   player.setTarget(Vector(1100, FLOOR));
 
   const inventory = Inventory(4);
-  const rock = Item(Sprite(scene, '/imgs/rock.png', 1100, FLOOR - 24, 24, 24), (item) => {
-    player.setTarget(item.getCenterVector());
-    player.setDestinationCallback(() => {
-      inventory.push(Rock(scene));
-    });
-  });
+  const pilesOfRocks = [
+    PileOfRocks(scene, 1050, FLOOR),
+    PileOfRocks(scene, 700, FLOOR)
+  ];
 
-  let lightSources = [createLightSource(1100, FLOOR)];
+  const lightSources = [
+    createLightSource(1100, FLOOR - 150),
+    createLightSource(700, FLOOR - 150),
+    createLightSource(500, FLOOR - 150)
+  ];
+  const trees = lightSources.map(light => Sprite(scene, '/imgs/tree.png', light.position.x - 100, light.position.y - 150, 200, 300));
+
+  let initialLightSource = lightSources[0];
 
   //let lightings = [
   //  new Lighting({
@@ -52,16 +60,23 @@ export function Scene(canvas) {
 
   const tiger = Tiger(scene, 0, FLOOR, player, lightSources);
 
-  let targets = [rock]; 
-  let objects = [player, rock, tiger];
+  let targets = [].concat(pilesOfRocks); 
+  let objects = trees.concat([player, tiger]).concat(pilesOfRocks);
 
   return scene;
 
   function update(timeElapsed) {
+    if (
+      !initialLightSource.enabled &&
+      Math.abs(initialLightSource.position.x - player.getCenterX()) < 100
+    ) {
+      initialLightSource.enabled = true;
+    }
+
     inventory.concat(objects).forEach(object => object.update(timeElapsed));
 
     let distance = 90 + Math.sin(Date.now() * 0.001) * 10;
-    lightSources.forEach(light => light.distance = distance);
+    lightSources.filter(light => light.enabled).forEach(light => light.distance = distance);
   }
 
   function render(context) {
@@ -89,7 +104,7 @@ export function Scene(canvas) {
     if (dragged) {
       dragged.trigger('drop', coordinates);
     } else {
-      let clicked = findObjectsAt(coordinates)[0];
+      let clicked = findObjectsAt(coordinates).filter(object => object.clickable)[0];
       if (clicked) {
         clicked.trigger('click', coordinates);
       } else {
@@ -113,7 +128,7 @@ export function Scene(canvas) {
     context.globalCompositeOperation = "lighter";
 
     // TODO: Make it work with the lightings to be able to cast shadows
-    lightSources.forEach((lightSource) => {
+    lightSources.filter(light => light.enabled).forEach((lightSource) => {
       lightSource.render(context);
     });
     context.restore();
@@ -126,11 +141,12 @@ export function Scene(canvas) {
     context.restore();
   }
 
-  function createLightSource(x, y) {
+  function createLightSource(x, y, enabled = false) {
     return new Lamp({
       position: new Vec2(x, y),
-      distance: 100,
-      color: 'rgba(250,220,100,0.8)'
+      distance: 0,
+      color: 'rgba(250,220,100,0.8)',
+      enabled
     });
   }
 
@@ -153,4 +169,14 @@ export function Scene(canvas) {
   function getTiger() { return tiger; };
   function getInventory() { return inventory; }
   function getCanvas() { return canvas; }
+
+  function overlappingObjectsWith(sprite) {
+    return objects.filter(object => object.overlaps(sprite));
+  }
+
+  function lightSourcesInRadius(position, radius) {
+    return lightSources.filter(light => {
+      return Math.abs(light.position.x - position.getX()) <= radius;
+    });
+  }
 }

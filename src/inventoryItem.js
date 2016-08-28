@@ -10,6 +10,7 @@ export function InventoryItem(sprite, onUse) {
 
   let inventoryItem = Object.assign({}, sprite, {
     constructor: InventoryItem,
+    clickable: true,
     setIndex,
     trigger,
     isDragging,

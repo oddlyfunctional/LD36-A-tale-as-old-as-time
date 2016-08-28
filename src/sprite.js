@@ -14,6 +14,7 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
 
   const sprite = {
     constructor: Sprite,
+    clickable: false,
     move,
     update,
     render,
@@ -37,7 +38,8 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
     destroy,
     isEqual,
     getSprite,
-    setFlipped
+    setFlipped,
+    overlaps
   };
 
   return sprite;
@@ -122,5 +124,12 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
 
   function setFlipped(newFlipped) {
     flipped = newFlipped;
+  }
+
+  function overlaps(sprite) {
+    return !(sprite.right() < left() ||
+             sprite.left() > right() ||
+             sprite.bottom() < top() ||
+             sprite.top() > bottom());
   }
 }
