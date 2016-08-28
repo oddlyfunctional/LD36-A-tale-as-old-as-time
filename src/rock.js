@@ -2,6 +2,7 @@ import { InventoryItem } from './inventoryItem';
 import { Sprite } from './sprite';
 import { Vector } from './vector';
 import { Projectile } from './projectile';
+import { Tiger } from './tiger';
 
 export function Rock(scene) {
   const MAX_DISTANCE = 300;
@@ -34,7 +35,13 @@ export function Rock(scene) {
       Projectile(
         projectileSprite,
         Vector(coordinates.x, coordinates.y),
-        () => console.log("hit!")
+        () => {
+          const hitObjects = scene.findObjectsAt(coordinates);
+          const tiger = hitObjects.find(object => object.constructor == Tiger);
+          if (tiger) {
+            console.log("Hit the eye of the tiger!")
+          }
+        }
       )
     );
 
