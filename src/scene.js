@@ -19,6 +19,7 @@ export function Scene(canvas) {
     add,
     remove,
     getPlayer,
+    getTiger,
     getInventory
   };
 
@@ -141,7 +142,7 @@ export function Scene(canvas) {
     objects = objects.filter(obj => !obj.isEqual(object));
   }
 
-  function getPlayer() { return player };
-
+  function getPlayer() { return player; };
+  function getTiger() { return tiger; };
   function getInventory() { return inventory; }
 }

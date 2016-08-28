@@ -10,8 +10,8 @@ export function Tiger(scene, x, y, player, lightSources) {
 
   const CHASING = 'chasing';
   const FLEEING = 'fleeing';
-  const fleeTimeout = 1.5 * 1000;
   let state = CHASING;
+  const fleeTimeout = 1.5 * 1000;
   let startedFleeing;
 
   return Object.assign({}, sprite, {
