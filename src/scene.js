@@ -64,6 +64,14 @@ export function Scene(canvas) {
 
     renderLights(context);
     renderDark(context);
+
+    if (window.DEBUG) {
+      context.save();
+      context.font = "14px Monospace";
+      context.fillStyle = "white";
+      context.fillText("Player: " + player.getCenterVector().toString(), 10, 25);
+      context.restore();
+    }
   }
 
   function onMouseDown(coordinates) {

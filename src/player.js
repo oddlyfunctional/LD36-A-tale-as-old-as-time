@@ -26,6 +26,8 @@ export function Player(scene, x, y) {
         destinationCallback && destinationCallback();
       } else {
         body.moveBy(body.movementTo(target));
+        console.log('target', target.toString());
+        console.log('movement', body.movementTo(target).toString());
       }
     }
 

@@ -3,6 +3,7 @@ import { Illuminated } from './vendors/illuminated';
 const { Vec2, PolygonObject } = Illuminated;
 
 export function Sprite(scene, spritesheet, x, y, width, height) {
+  let flipped = 1;
   let image = new Image();
   let loaded = false;
   image.onload = function() {
@@ -31,7 +32,8 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
     copy,
     destroy,
     isEqual,
-    getSprite
+    getSprite,
+    setFlipped
   };
 
   return sprite;
@@ -45,7 +47,19 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
 
   function render(context) {
     if (!loaded) return;
-    context.drawImage(image, x, y, width, height);
+    context.save();
+    context.translate(x, y);
+    context.scale(flipped, 1);
+    context.drawImage(image, 0, 0, width * flipped, height);
+
+    if (window.DEBUG == true) {
+      context.beginPath();
+      context.lineWidth = "1";
+      context.strokeStyle = "red";
+      context.rect(0, 0, width * flipped, height);
+      context.stroke();
+    }
+    context.restore();
   }
 
   function getX() { return x; }
@@ -100,5 +114,9 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
 
   function isEqual(object) {
     return object.getSprite() == getSprite();
+  }
+
+  function setFlipped(newFlipped) {
+    flipped = newFlipped;
   }
 }

@@ -17,5 +17,6 @@ export function Body(sprite, speed = 3) {
 
   function moveBy(vector) {
     sprite.move(vector.getX(), vector.getY());
+    sprite.setFlipped(Math.sign(vector.getX()));
   }
 }
