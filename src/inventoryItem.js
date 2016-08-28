@@ -9,7 +9,7 @@ export function InventoryItem(sprite, onUse) {
   let index;
 
   let inventoryItem = Object.assign({}, sprite, {
-    name: 'InventoryItem',
+    constructor: InventoryItem,
     setIndex,
     trigger,
     isDragging,

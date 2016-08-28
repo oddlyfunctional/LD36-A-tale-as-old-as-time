@@ -9,6 +9,7 @@ export function Tiger(scene, x, y, player, lightSources) {
   let body = Body(sprite, 6);
 
   return Object.assign({}, sprite, {
+    constructor: Tiger,
     update
   });
 

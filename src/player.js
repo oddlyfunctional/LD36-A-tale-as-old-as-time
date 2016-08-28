@@ -10,7 +10,7 @@ export function Player(scene, x, y) {
   let target, destinationCallback;
 
   return Object.assign({}, sprite, {
-    name: 'Player',
+    constructor: Player,
     update,
     render,
     onMouseDown,

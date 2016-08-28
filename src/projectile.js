@@ -11,6 +11,7 @@ export function Projectile(sprite, target, onHit) {
   let speedY = - time * gravity / 2;
 
   return Object.assign({}, sprite, {
+    constructor: Projectile,
     update
   });
 

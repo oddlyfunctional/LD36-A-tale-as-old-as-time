@@ -1,5 +1,6 @@
 export function Item(sprite, onClick) {
   let item = Object.assign({}, sprite, {
+    constructor: Item,
     trigger
   });
 

@@ -12,7 +12,7 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
   image.src = spritesheet;
 
   const sprite = {
-    name: 'Sprite',
+    constructor: Sprite,
     move,
     update,
     render,

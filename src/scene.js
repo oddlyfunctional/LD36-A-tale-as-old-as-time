@@ -10,6 +10,7 @@ const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
 
 export function Scene(canvas) {
   const scene = {
+    constructor: Scene,
     update,
     render,
     onMouseDown,
