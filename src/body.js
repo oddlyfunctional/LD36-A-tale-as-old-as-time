@@ -1,6 +1,6 @@
 import { Vector } from './vector';
 
-export function Body(sprite, speed = 3) {
+export function Body(scene, sprite, boundToCamera = true, speed = 3) {
   return {
     movementTo,
     moveBy
@@ -16,6 +16,8 @@ export function Body(sprite, speed = 3) {
   }
 
   function moveBy(vector) {
+    if (sprite.right() + vector.getX() > scene.getCanvas().width) { return; }
+
     sprite.move(vector.getX(), vector.getY());
     sprite.setFlipped(Math.sign(vector.getX()));
   }

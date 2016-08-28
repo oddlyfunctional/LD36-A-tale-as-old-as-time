@@ -7,7 +7,7 @@ export function Player(scene, x, y) {
   const height = 80;
   y -= height;
   let sprite = Sprite(scene, '/imgs/caveman.png', x, y, 60, height);
-  let body = Body(sprite);
+  let body = Body(scene, sprite);
   let target, destinationCallback;
 
   return Object.assign({}, sprite, {

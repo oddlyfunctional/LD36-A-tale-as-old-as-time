@@ -1,6 +1,7 @@
 import { Player } from './player';
 import { Item } from './item';
 import { Sprite } from './sprite';
+import { Vector } from './vector';
 import { Inventory } from './inventory';
 import { InventoryItem } from './inventoryItem';
 import { Rock } from './rock';
@@ -20,20 +21,23 @@ export function Scene(canvas) {
     remove,
     getPlayer,
     getTiger,
-    getInventory
+    getInventory,
+    getCanvas
   };
 
   const FLOOR = 200;
-  const player = Player(scene, 0, FLOOR);
+  const player = Player(scene, 600, FLOOR);
+  player.setTarget(Vector(1100, FLOOR));
+
   const inventory = Inventory(4);
-  const rock = Item(Sprite(scene, '/imgs/rock.png', 100, FLOOR - 24, 24, 24), (item) => {
+  const rock = Item(Sprite(scene, '/imgs/rock.png', 1100, FLOOR - 24, 24, 24), (item) => {
     player.setTarget(item.getCenterVector());
     player.setDestinationCallback(() => {
       inventory.push(Rock(scene));
     });
   });
 
-  let lightSources = [createLightSource(200, FLOOR)];
+  let lightSources = [createLightSource(1100, FLOOR)];
 
   //let lightings = [
   //  new Lighting({
@@ -46,7 +50,7 @@ export function Scene(canvas) {
     lights: lightSources
   })
 
-  const tiger = Tiger(scene, 400, FLOOR, player, lightSources);
+  const tiger = Tiger(scene, 0, FLOOR, player, lightSources);
 
   let targets = [rock]; 
   let objects = [player, rock, tiger];
@@ -148,4 +152,5 @@ export function Scene(canvas) {
   function getPlayer() { return player; };
   function getTiger() { return tiger; };
   function getInventory() { return inventory; }
+  function getCanvas() { return canvas; }
 }

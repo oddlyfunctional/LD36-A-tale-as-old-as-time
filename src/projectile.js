@@ -16,7 +16,7 @@ export function Projectile(sprite, target, onHit) {
   });
 
   function update(timeElapsed) {
-    if (Math.abs(x2 - sprite.getX()) < speedX * 2) {
+    if (Math.abs(x2 - sprite.getX()) < Math.abs(speedX * 2)) {
       onHit();
       sprite.destroy();
       return;
