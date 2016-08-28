@@ -40,6 +40,7 @@ export function Rock(scene) {
           const tiger = hitObjects.find(object => object.constructor == Tiger);
           if (tiger) {
             console.log("Hit the eye of the tiger!")
+            tiger.setFleeing();
           }
         }
       )

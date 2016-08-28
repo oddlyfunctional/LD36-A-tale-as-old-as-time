@@ -8,12 +8,33 @@ export function Tiger(scene, x, y, player, lightSources) {
   let sprite = Sprite(scene, '/imgs/tiger.png', x, y, 120, height);
   let body = Body(sprite, 6);
 
+  const CHASING = 'chasing';
+  const FLEEING = 'fleeing';
+  const fleeTimeout = 1.5 * 1000;
+  let state = CHASING;
+  let startedFleeing;
+
   return Object.assign({}, sprite, {
     constructor: Tiger,
-    update
+    update,
+    setFleeing
   });
 
   function update(timeElapsed) {
+    switch (state) {
+      case CHASING:
+        chase();
+        break;
+      case FLEEING:
+        flee();
+        break;
+      default: throw new Error(`Unexpected state: ${state}`);
+    }
+
+    sprite.update(timeElapsed);
+  }
+
+  function chase() {
     let movement = body.movementTo(player.getCenterVector());
     let newCenter = movement.add(sprite.getCenterVector());
 
@@ -26,11 +47,27 @@ export function Tiger(scene, x, y, player, lightSources) {
     ) {
       body.moveBy(movement);
     }
+  }
 
-    sprite.update(timeElapsed);
+  function flee() {
+    if (new Date() - startedFleeing > fleeTimeout) {
+      setChasing();
+    } else {
+      let movement = body.movementTo(player.getCenterVector()).dotProduct(-1);
+      body.moveBy(movement);
+    }
   }
 
   function radius(sprite) {
     return (sprite.getWidth() / 2 + sprite.getHeight() / 2) / 2;
+  }
+
+  function setFleeing() {
+    state = FLEEING;
+    startedFleeing = new Date();
+  }
+
+  function setChasing() {
+    state = CHASING;
   }
 }
