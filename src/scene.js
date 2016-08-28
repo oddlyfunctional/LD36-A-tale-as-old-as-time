@@ -55,6 +55,9 @@ export function Scene(canvas) {
 
   function update(timeElapsed) {
     inventory.concat(objects).forEach(object => object.update(timeElapsed));
+
+    let distance = 90 + Math.sin(Date.now() * 0.001) * 10;
+    lightSources.forEach(light => light.distance = distance);
   }
 
   function render(context) {
@@ -122,8 +125,8 @@ export function Scene(canvas) {
   function createLightSource(x, y) {
     return new Lamp({
       position: new Vec2(x, y),
-      distance: 100,  
-      color: 'rgba(250,220,150,0.8)'
+      distance: 100,
+      color: 'rgba(250,220,100,0.8)'
     });
   }
 
