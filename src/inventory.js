@@ -5,7 +5,8 @@ export function Inventory(maxItems) {
     push,
     concat,
     find,
-    remove
+    remove,
+    forEach
   };
 
   function push(item) {
@@ -31,5 +32,9 @@ export function Inventory(maxItems) {
 
   function calculateIndexes() {
     items.forEach((item, index) => item.setIndex(index));
+  }
+
+  function forEach(fn) {
+    return items.forEach(fn);
   }
 }

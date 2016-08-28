@@ -57,13 +57,15 @@ export function Scene(canvas) {
   }
 
   function render(context) {
-    inventory.concat(objects).forEach(sprite => sprite.render(context));
+    objects.forEach(sprite => sprite.render(context));
 
     //lightings.forEach(lighting => lighting.compute(context.canvas.width, context.canvas.height));
     darkmask.compute(context.canvas.width, context.canvas.height);
 
     renderLights(context);
     renderDark(context);
+
+    inventory.forEach((item) => item.render(context));
 
     if (window.DEBUG) {
       context.save();
