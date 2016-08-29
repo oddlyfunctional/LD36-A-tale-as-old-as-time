@@ -25,6 +25,7 @@ export function Scene(canvas) {
     getTiger,
     getInventory,
     getCanvas,
+    getLightSources,
     overlappingObjectsWith,
     lightSourcesInRadius
   };
@@ -95,9 +96,15 @@ export function Scene(canvas) {
 
     if (window.DEBUG) {
       context.save();
+
       context.font = "14px Monospace";
       context.fillStyle = "white";
       context.fillText("Player: " + player.getCenterVector().toString(), 10, 25);
+
+      context.font = "14px Monospace";
+      context.fillStyle = "white";
+      context.fillText("Tiger: " + tiger.getCenterVector().toString(), 10, 40);
+
       context.restore();
     }
   }
@@ -172,6 +179,7 @@ export function Scene(canvas) {
   function getTiger() { return tiger; };
   function getInventory() { return inventory; }
   function getCanvas() { return canvas; }
+  function getLightSources() { return lightSources; }
 
   function overlappingObjectsWith(sprite) {
     return objects.filter(object => object.overlaps(sprite));

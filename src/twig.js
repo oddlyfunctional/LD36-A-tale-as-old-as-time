@@ -2,6 +2,7 @@ import { InventoryItem } from './inventoryItem';
 import { Sprite } from './sprite';
 import { Flint } from './flint';
 import { Tree } from './tree';
+import { Torch } from './torch';
 
 export function Twig(scene) {
   const inventoryItem = InventoryItem(
@@ -31,6 +32,7 @@ export function Twig(scene) {
   }
 
   function ignite() {
-    console.log("igniting");
+    scene.getInventory().remove(twig);
+    scene.getInventory().push(Torch(scene));
   }
 }

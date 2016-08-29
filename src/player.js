@@ -3,7 +3,7 @@ import { Vector } from './vector';
 import { Body } from './body';
 
 export function Player(scene, x, y) {
-  const MINIMUM_DISTANCE_TO_TIGER = 130;
+  const MINIMUM_DISTANCE_TO_TIGER = 100;
   const height = 80;
   y -= height;
   let sprite = Sprite(scene, '/imgs/caveman.png', x, y, 60, height);
@@ -22,12 +22,12 @@ export function Player(scene, x, y) {
   function update(timeElapsed) {
     let distanceToTiger = scene.getTiger().getCenterVector().subtract(sprite.getCenterVector());
     if (distanceToTiger.magnitude() <= MINIMUM_DISTANCE_TO_TIGER) {
-      target = sprite.getCenterVector().add(
+      setTarget(sprite.getCenterVector().add(
         Vector(
           MINIMUM_DISTANCE_TO_TIGER * Math.sign(-distanceToTiger.getX()),
           0
         )
-      );
+      ));
     }
 
     if (target) {

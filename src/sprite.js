@@ -123,7 +123,7 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
   }
 
   function setFlipped(newFlipped) {
-    flipped = newFlipped;
+    flipped = newFlipped || flipped;
   }
 
   function overlaps(sprite) {

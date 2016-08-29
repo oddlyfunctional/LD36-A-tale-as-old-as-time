@@ -38,15 +38,27 @@ export function Tiger(scene, x, y, player, lightSources) {
     let movement = body.movementTo(player.getCenterVector());
     let newCenter = movement.add(sprite.getCenterVector());
 
-    if (
-      !lightSources.filter(light => light.enabled).find(light => {
-        let lightPosition = new Vector(light.position.x, light.position.y);
-        let distance = Math.abs(lightPosition.getX() - newCenter.getX()) - radius(sprite);
-        return distance - 20 < light.distance;
-      })
-    ) {
-      body.moveBy(movement);
+    const closestLightSources = lightSources
+    .filter(light => light.enabled)
+    .sort(
+      (l1, l2) => Math.abs(sprite.getX() - l1.position.x) - Math.abs(sprite.getX() - l2.position.x)
+    );
+
+    const closestLightSource = closestLightSources[0];
+
+    if (closestLightSource) {
+      let lightPosition = new Vector(closestLightSource.position.x, closestLightSource.position.y);
+      let distance = Math.abs(lightPosition.getX() - newCenter.getX()) - radius(sprite);
+      const difference = 120 - distance;
+      if (difference > 6) {
+        movement = movement.dotProduct(-1);
+      } else if (difference >= 0) {
+        movement = movement.dotProduct(0);
+      }
     }
+
+    body.moveBy(movement);
+    sprite.setFlipped(Math.sign(player.getX() - sprite.getX()));
   }
 
   function flee() {
