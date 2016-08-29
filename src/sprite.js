@@ -63,7 +63,8 @@ export function Sprite(
     getSprite,
     setFlipped,
     overlaps,
-    setAnimation
+    setAnimation,
+    getScene
   };
 
   return sprite;
@@ -175,4 +176,6 @@ export function Sprite(
     currentAnimation = animations[animation];
     currentFrame = currentAnimation && currentAnimation.frames[0];
   }
+
+  function getScene() { return scene; }
 }

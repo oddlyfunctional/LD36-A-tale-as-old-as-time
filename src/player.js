@@ -3,7 +3,7 @@ import { Vector } from './vector';
 import { Body } from './body';
 
 export function Player(scene, x, y) {
-  const MINIMUM_DISTANCE_TO_TIGER = 100;
+  const MINIMUM_DISTANCE_TO_TIGER = 130;
   const height = 80;
   y -= height;
   let sprite = Sprite(scene, '/imgs/caveman.png', x, y, 60, height);
@@ -12,6 +12,7 @@ export function Player(scene, x, y) {
 
   return Object.assign({}, sprite, {
     constructor: Player,
+    name: 'Myself',
     update,
     render,
     onMouseDown,

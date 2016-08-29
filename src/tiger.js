@@ -16,6 +16,7 @@ export function Tiger(scene, x, y, player, lightSources) {
 
   return Object.assign({}, sprite, {
     constructor: Tiger,
+    name: 'Sabertooth Tiger',
     update,
     setFleeing
   });

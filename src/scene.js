@@ -27,7 +27,8 @@ export function Scene(canvas) {
     getCanvas,
     getLightSources,
     overlappingObjectsWith,
-    lightSourcesInRadius
+    lightSourcesInRadius,
+    setActionStatus
   };
 
   const FLOOR = 350;
@@ -50,6 +51,7 @@ export function Scene(canvas) {
   const trees = lightSources.map(light => Tree(scene, light, light.position.x - 100, light.position.y - 150));
 
   let initialLightSource = lightSources[0];
+  let actionStatus = 'Walk to';
 
   //let lightings = [
   //  new Lighting({
@@ -94,6 +96,10 @@ export function Scene(canvas) {
 
     inventory.forEach((item) => item.render(context));
 
+    context.font = "14px Monospace";
+    context.fillStyle = "white";
+    context.fillText(actionStatus, canvas.width / 2 - (actionStatus.length / 2) * 14, 250);
+
     if (window.DEBUG) {
       context.save();
 
@@ -124,13 +130,16 @@ export function Scene(canvas) {
   }
 
   function onMouseMove(coordinates) {
-    if (inventory.concat(targets).find((target) => target.contains(coordinates))) {
-      canvas.classList.add('pointer');
-    } else {
-      canvas.classList.remove('pointer');
-    }
+    setActionStatus('Walk to');
 
-    inventory.concat(objects).forEach(object => object.trigger('mousemove', coordinates));
+    inventory
+      .concat(objects)
+      .filter((target) => target.contains(coordinates))
+      .forEach(object => object.trigger('hover', coordinates));
+
+    inventory
+      .concat(objects)
+      .forEach(object => object.trigger('mousemove', coordinates));
   }
 
   function renderLights(context) {
@@ -160,10 +169,10 @@ export function Scene(canvas) {
     });
   }
 
-  function findObjectsAt(coordinates) {
+  function findObjectsAt(coordinates, includePlayer = false) {
     return inventory
              .concat(objects)
-             .filter(object => object !== player)
+             .filter(object => includePlayer || object !== player)
              .filter(object => object.contains(coordinates));
   }
 
@@ -189,5 +198,9 @@ export function Scene(canvas) {
     return lightSources.filter(
       light => Math.abs(light.position.x - position.getX()) <= radius
     );
+  }
+
+  function setActionStatus(newActionStatus) {
+    actionStatus = newActionStatus;
   }
 }

@@ -14,7 +14,9 @@ export function Rock(scene) {
   );
 
   const rock = Object.assign({}, inventoryItem, {
-    constructor: Rock
+    constructor: Rock,
+    name: 'Rock',
+    trigger
   });
 
   return rock;
@@ -62,5 +64,15 @@ export function Rock(scene) {
         }
       )
     );
+  }
+
+  function trigger(event, coordinates) {
+    inventoryItem.trigger(event, coordinates);
+
+    switch (event) {
+      case 'hover':
+        scene.setActionStatus(rock.isDragging() ? 'Throw Rock' : 'Use Rock');
+        break;
+    }
   }
 }

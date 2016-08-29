@@ -3,7 +3,7 @@ import { Trigger } from './trigger';
 import { Rock } from './rock';
 
 export function PileOfRocks(scene, x, y) {
-  const trigger = Trigger(Sprite(scene, '/imgs/pile-of-rocks.png', x, y - 50, 100, 50), (trigger) => {
+  const triggerObject = Trigger(Sprite(scene, '/imgs/pile-of-rocks.png', x, y - 50, 100, 50), (trigger) => {
     scene.getPlayer().setTarget(
       trigger.getCenterVector(),
       () => {
@@ -12,7 +12,21 @@ export function PileOfRocks(scene, x, y) {
     );
   });
 
-  return Object.assign({}, trigger, {
-    constructor: PileOfRocks
+  const pileOfRocks = Object.assign({}, triggerObject, {
+    constructor: PileOfRocks,
+    name: 'Pile of Rocks',
+    trigger
   });
+
+  return pileOfRocks;
+
+  function trigger(event, coordinates) {
+    triggerObject.trigger(event, coordinates);
+
+    switch (event) {
+      case 'hover':
+        scene.setActionStatus('Pick up Rock');
+        break;
+    }
+  }
 }

@@ -12,6 +12,8 @@ export function Twig(scene) {
 
   const twig = Object.assign({}, inventoryItem, {
     constructor: Twig,
+    name: 'Twig',
+    trigger,
     ignite
   });
 
@@ -34,5 +36,25 @@ export function Twig(scene) {
   function ignite() {
     scene.getInventory().remove(twig);
     scene.getInventory().push(Torch(scene));
+  }
+
+  function trigger(event, coordinates) {
+    inventoryItem.trigger(event, coordinates);
+
+    switch (event) {
+      case 'hover':
+        let actionStatus = 'Use Twig';
+
+        if (twig.isDragging()) {
+          const objectUnderCursor = scene.findObjectsAt(coordinates, true).find(object => object != twig);
+          if (objectUnderCursor) {
+            actionStatus += ` on ${objectUnderCursor.name}`;
+          }
+        }
+
+        scene.setActionStatus(actionStatus);
+
+        break;
+    }
   }
 }

@@ -10,7 +10,8 @@ export function Flint(scene) {
   );
 
   const flint = Object.assign({}, inventoryItem, {
-    constructor: Flint
+    constructor: Flint,
+    trigger
   });
 
   return flint;
@@ -29,6 +30,26 @@ export function Flint(scene) {
     const twig = objects.find(object => object.constructor == Twig);
     if (twig) {
       twig.ignite();
+    }
+  }
+
+  function trigger(event, coordinates) {
+    inventoryItem.trigger(event, coordinates);
+
+    switch (event) {
+      case 'hover':
+        let actionStatus = 'Use Flint';
+
+        if (flint.isDragging()) {
+          const objectUnderCursor = scene.findObjectsAt(coordinates, true).find(object => object != flint);
+          if (objectUnderCursor) {
+            actionStatus += ` on ${objectUnderCursor.name}`;
+          }
+        }
+
+        scene.setActionStatus(actionStatus);
+
+        break;
     }
   }
 }

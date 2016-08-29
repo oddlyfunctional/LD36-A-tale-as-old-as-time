@@ -5,6 +5,7 @@ export function Tree(scene, lightSource, x, y) {
 
   return Object.assign({}, tree, {
     constructor: Tree,
+    name: 'Tree',
     lightSource
   });
 }
