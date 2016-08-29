@@ -58,13 +58,13 @@ export function Scene(canvas) {
   //  }),
   //];
 
-  let darkmask = new DarkMask({ 
+  let darkmask = new DarkMask({
     lights: lightSources
   })
 
   const tiger = Tiger(scene, 0, FLOOR, player, lightSources);
 
-  let targets = [twigTrigger].concat(pilesOfRocks); 
+  let targets = [twigTrigger].concat(pilesOfRocks);
   let objects = trees.concat([player, tiger, twigTrigger]).concat(pilesOfRocks);
 
   return scene;
@@ -79,7 +79,7 @@ export function Scene(canvas) {
 
     inventory.concat(objects).forEach(object => object.update(timeElapsed));
 
-    let distance = 90 + Math.sin(Date.now() * 0.001) * 10;
+    let distance = 120 + Math.sin(Date.now() * 0.001) * 10;
     lightSources.filter(light => light.enabled).forEach(light => light.distance = distance);
   }
 

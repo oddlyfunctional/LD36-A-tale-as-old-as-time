@@ -2,12 +2,35 @@ import { Vector } from './vector';
 import { Illuminated } from './vendors/illuminated';
 const { Vec2, PolygonObject } = Illuminated;
 
-export function Sprite(scene, spritesheet, x, y, width, height) {
+export function Sprite(
+  scene,
+  spritesheet,
+  x,
+  y,
+  width,
+  height,
+  frameWidth,
+  frameHeight,
+  animations = {
+    default: {
+      frames: [0],
+      loop: false,
+      speed: 0
+    }
+  }
+) {
   let flipped = 1;
+  let currentAnimation;
+  let currentFrame;
+  let lastFrameAt = Date.now();
+  setAnimation('default');
   let image = new Image();
   let loaded = false;
   image.onload = function() {
     loaded = true;
+
+    frameWidth = frameWidth || image.width;
+    frameHeight = frameHeight || image.height;
   };
 
   image.src = spritesheet;
@@ -39,7 +62,8 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
     isEqual,
     getSprite,
     setFlipped,
-    overlaps
+    overlaps,
+    setAnimation
   };
 
   return sprite;
@@ -56,7 +80,21 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
     context.save();
     context.translate(x, y);
     context.scale(flipped, 1);
-    context.drawImage(image, 0, 0, width * flipped, height);
+
+    let now = Date.now();
+    if (now - lastFrameAt > currentAnimation.speed) {
+      lastFrameAt = now;
+
+      if (currentAnimation.loop) {
+        currentFrame = (currentFrame + 1) % currentAnimation.frames.length;
+      } else {
+        currentFrame += currentFrame + 1 >= currentAnimation.frames.length ? 0 : 1;
+      }
+    }
+
+    let frameX = currentAnimation.frames[currentFrame] * frameWidth;
+
+    context.drawImage(image, frameX, 0, frameWidth, frameHeight, 0, 0, width * flipped, height);
 
     if (window.DEBUG == true) {
       context.beginPath();
@@ -131,5 +169,10 @@ export function Sprite(scene, spritesheet, x, y, width, height) {
              sprite.left() > right() ||
              sprite.bottom() < top() ||
              sprite.top() > bottom());
+  }
+
+  function setAnimation(animation) {
+    currentAnimation = animations[animation];
+    currentFrame = currentAnimation && currentAnimation.frames[0];
   }
 }
