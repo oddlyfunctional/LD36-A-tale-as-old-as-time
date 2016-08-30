@@ -8,8 +8,8 @@ export function Tree(scene, lightSource, x, y) {
     },
 
     burning: {
-      frames: [1],
-      speed: 0,
+      frames: [1, 2],
+      speed: 1000,
       loop: true
     }
   });
