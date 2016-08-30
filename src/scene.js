@@ -32,6 +32,10 @@ export function Scene(canvas) {
     setActionStatus
   };
 
+  const bgMusic = new Audio('./sounds/bgmusic.mp3');
+  bgMusic.loop = true;
+  bgMusic.play();
+
   const FLOOR = 350;
   const background = Sprite(scene, './imgs/background.png', 0, 0, canvas.width, canvas.height);
   const player = Player(scene, 600, FLOOR);
