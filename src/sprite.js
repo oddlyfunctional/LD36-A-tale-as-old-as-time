@@ -26,6 +26,7 @@ export function Sprite(
   setAnimation('default');
   let speech;
   let eraseSpeechAt;
+  let rotation = 0;
   let image = new Image();
   let loaded = false;
   image.onload = function() {
@@ -70,7 +71,9 @@ export function Sprite(
     getAnimation,
     getScene,
     setSpeech,
-    getSpeech
+    getSpeech,
+    getRotation,
+    setRotation
   };
 
   return sprite;
@@ -101,6 +104,9 @@ export function Sprite(
 
     let frameX = getCurrentAnimation().frames[currentFrame] * frameWidth;
 
+    context.translate(frameWidth / 2, frameHeight / 2);
+    context.rotate(getRotation());
+    context.translate(-frameWidth / 2, -frameHeight / 2);
     context.drawImage(image, frameX, 0, frameWidth, frameHeight, 0, 0, width * flipped, height);
 
     if (window.DEBUG == true) {
@@ -214,4 +220,9 @@ export function Sprite(
   }
 
   function getSpeech() { return speech; }
+
+  function getRotation() { return rotation; }
+  function setRotation(degrees) {
+    rotation = degrees * Math.PI / 180;
+  }
 }

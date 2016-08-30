@@ -13,6 +13,7 @@ export function TwigTrigger(scene, x, y) {
       }
     );
   });
+  triggerObject.setRotation(90);
 
   const twigTrigger = Object.assign({}, triggerObject, {
     constructor: TwigTrigger,
@@ -32,3 +33,4 @@ export function TwigTrigger(scene, x, y) {
     }
   }
 }
+window.angle = 0;

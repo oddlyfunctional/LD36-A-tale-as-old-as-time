@@ -44,7 +44,7 @@ export function Scene(canvas) {
     PileOfRocks(scene, 700, FLOOR)
   ];
 
-  const twigTrigger = TwigTrigger(scene, 500, FLOOR);
+  const twigTrigger = TwigTrigger(scene, 420, FLOOR + 20);
 
   const lightSources = [
     createLightSource(1100, FLOOR - 150),
@@ -82,7 +82,7 @@ export function Scene(canvas) {
   const tiger = Tiger(scene, 0, FLOOR + 20, player, lightSources);
 
   let targets = [twigTrigger].concat(pilesOfRocks);
-  let objects = trees.concat(pilesOfRocks).concat([player, tiger, twigTrigger]);
+  let objects = trees.concat(pilesOfRocks).concat([twigTrigger, player, tiger]);
 
   return scene;
 
