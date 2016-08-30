@@ -78,9 +78,22 @@ export function Tiger(scene, x, y, player, lightSources) {
   function setFleeing() {
     state = FLEEING;
     startedFleeing = new Date();
+    saySomething();
   }
 
   function setChasing() {
     state = CHASING;
+  }
+
+  function saySomething() {
+    const noises = [
+      "GROOOWL!",
+      "GRRRAAAWR!",
+      "meow!",
+      "MRRRRGGGGGLLLL!"
+    ];
+
+    const noise = noises[Math.floor((Math.random() * 10 % noises.length))];
+    sprite.setSpeech(noise);
   }
 }

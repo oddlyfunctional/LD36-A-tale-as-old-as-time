@@ -34,6 +34,7 @@ export function Scene(canvas) {
   const FLOOR = 350;
   const player = Player(scene, 600, FLOOR);
   player.setTarget(Vector(1100, FLOOR));
+  player.setSpeech('AHHHHHHHHH!', 3000);
 
   const inventory = Inventory(4);
   const pilesOfRocks = [
@@ -77,6 +78,7 @@ export function Scene(canvas) {
       Math.abs(initialLightSource.position.x - player.getCenterX()) < 100
     ) {
       initialLightSource.enabled = true;
+      player.setSpeech("WOW! Sun, is that you?");
     }
 
     inventory.concat(objects).forEach(object => object.update(timeElapsed));
@@ -99,6 +101,8 @@ export function Scene(canvas) {
     context.font = "14px Monospace";
     context.fillStyle = "white";
     context.fillText(actionStatus, canvas.width / 2 - (actionStatus.length / 2) * 14, 250);
+
+    objects.forEach(object => object.renderUI(context));
 
     if (window.DEBUG) {
       context.save();

@@ -29,6 +29,9 @@ export function Player(scene, x, y) {
           0
         )
       ));
+      if (!sprite.getSpeech()) {
+        sprite.setSpeech('AHHHHHHHHH!');
+      }
     }
 
     if (target) {

@@ -23,7 +23,10 @@ export function Flint(scene) {
     if (tree) {
       scene.getPlayer().setTarget(
         tree.getCenterVector(),
-        () => tree.lightSource.enabled = true
+        () => {
+          tree.lightSource.enabled = true;
+          scene.getPlayer().setSpeech("Let there be light! Hmm, I like the sound of that.");
+        }
       );
     }
 

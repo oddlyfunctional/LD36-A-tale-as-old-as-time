@@ -24,6 +24,8 @@ export function Sprite(
   let currentFrame;
   let lastFrameAt = Date.now();
   setAnimation('default');
+  let speech;
+  let eraseSpeechAt;
   let image = new Image();
   let loaded = false;
   image.onload = function() {
@@ -41,6 +43,7 @@ export function Sprite(
     move,
     update,
     render,
+    renderUI,
     top,
     right,
     bottom,
@@ -64,7 +67,9 @@ export function Sprite(
     setFlipped,
     overlaps,
     setAnimation,
-    getScene
+    getScene,
+    setSpeech,
+    getSpeech
   };
 
   return sprite;
@@ -105,6 +110,25 @@ export function Sprite(
       context.stroke();
     }
     context.restore();
+  }
+
+  function renderUI(context) {
+    if (speech) {
+      if (Date.now() >= eraseSpeechAt) {
+        speech = undefined;
+        return;
+      }
+
+      context.save();
+      context.font = "14px Monospace";
+      context.shadowColor = "black";
+      context.shadowOffsetX = 1; 
+      context.shadowOffsetY = 1; 
+      context.fillStyle = "bold";
+      context.fillStyle = "yellow";
+      context.fillText(speech, getCenterX() - speech.length / 2 * 14, y - 50);
+      context.restore();
+    }
   }
 
   function getX() { return x; }
@@ -178,4 +202,11 @@ export function Sprite(
   }
 
   function getScene() { return scene; }
+
+  function setSpeech(newSpeech, duration = 2000) {
+    speech = newSpeech;
+    eraseSpeechAt = Date.now() + duration;
+  }
+
+  function getSpeech() { return speech; }
 }

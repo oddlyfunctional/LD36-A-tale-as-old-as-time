@@ -9,6 +9,7 @@ export function TwigTrigger(scene, x, y) {
       () => {
         scene.remove(twigTrigger);
         scene.getInventory().push(Twig(scene));
+        scene.getPlayer().setSpeech("I twig that this may be useful.");
       }
     );
   });

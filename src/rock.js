@@ -52,7 +52,7 @@ export function Rock(scene) {
           //const hitObjects = scene.findObjectsAt(coordinates);
           const tiger = hitObjects.find(object => object.constructor == Tiger);
           if (tiger) {
-            console.log("Hit the eye of the tiger!")
+            player.setSpeech('It hit the eye of the tiger!');
             tiger.setFleeing();
           }
 

@@ -7,7 +7,11 @@ export function PileOfRocks(scene, x, y) {
     scene.getPlayer().setTarget(
       trigger.getCenterVector(),
       () => {
-        scene.getInventory().push(Rock(scene));
+        if (scene.getInventory().push(Rock(scene))) {
+          scene.getPlayer().setSpeech("Hmm, there is not a thing as too many rocks.");
+        } else {
+          scene.getPlayer().setSpeech("I can't carry any more rocks, they are too heavy. :(");
+        }
       }
     );
   });
