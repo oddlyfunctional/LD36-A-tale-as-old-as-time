@@ -42,6 +42,7 @@ export function Scene(canvas) {
   player.setTarget(Vector(1100, FLOOR));
   player.setSpeech('AHHHHHHHHH!', 3000);
   let gameOver = false;
+  let gameStarted = false;
 
   const inventory = Inventory(4);
   const pilesOfRocks = [
@@ -69,7 +70,7 @@ export function Scene(canvas) {
   const initialLightSource = lightSources[0];
   const lightning = Sprite(scene, './imgs/lightning.png', 1050, 0, 100, 300);
   let lightningFinishedAt;
-  const lightningDuration = 500;
+  const lightningDuration = 700;
   let actionStatus = 'Walk to';
 
   //let lightings = [
@@ -99,6 +100,7 @@ export function Scene(canvas) {
       initialLightSource.setEnabled(true);
       player.setSpeech("WOW! Sun, is that you?");
       lightningFinishedAt = Date.now() + lightningDuration;
+      gameStarted = true;
     }
 
     inventory.concat(objects).forEach(object => object.update(timeElapsed));
@@ -112,7 +114,7 @@ export function Scene(canvas) {
   }
 
   function render(context) {
-    if (true || gameOver) {
+    if (gameOver) {
       context.fillStyle = "black";
       context.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -165,6 +167,8 @@ export function Scene(canvas) {
   }
 
   function onMouseDown(coordinates) {
+    if (!gameStarted) { return; }
+
     let dragged = inventory.find(item => item.isDragging());
     if (dragged) {
       dragged.trigger('drop', coordinates);
@@ -179,6 +183,8 @@ export function Scene(canvas) {
   }
 
   function onMouseMove(coordinates) {
+    if (!gameStarted) { return; }
+
     setActionStatus('Walk to');
 
     inventory
