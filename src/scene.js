@@ -64,13 +64,14 @@ export function Scene(canvas) {
   //];
 
   let darkmask = new DarkMask({
-    lights: lightSources
+    lights: lightSources,
+    color: 'rgba(0,0,0,0.7)'
   })
 
   const tiger = Tiger(scene, 0, FLOOR, player, lightSources);
 
   let targets = [twigTrigger].concat(pilesOfRocks);
-  let objects = trees.concat([player, tiger, twigTrigger]).concat(pilesOfRocks);
+  let objects = trees.concat(pilesOfRocks).concat([player, tiger, twigTrigger]);
 
   return scene;
 

@@ -4,9 +4,21 @@ import { Vector } from './vector';
 
 export function Tiger(scene, x, y, player, lightSources) {
   const MINIMUM_DISTANCE_TO_FIRE = 140;
-  const height = 80;
+  const height = 100;
   y -= height;
-  let sprite = Sprite(scene, './imgs/tiger.png', x, y, 120, height);
+  let sprite = Sprite(scene, './imgs/tiger.png', x, y, 160, height, 400, 250, {
+    standing: {
+      frames: [0],
+      speed: 0
+    },
+
+    leaping: {
+      frames: [1, 2],
+      speed: 300,
+      loop: true
+    }
+  });
+  sprite.setAnimation('leaping');
   let body = Body(scene, sprite, false, 6);
 
   const CHASING = 'chasing';
@@ -54,8 +66,14 @@ export function Tiger(scene, x, y, player, lightSources) {
       const difference = MINIMUM_DISTANCE_TO_FIRE - distance;
       if (difference > 6) {
         movement = movement.dotProduct(-1);
+        sprite.setAnimation('standing');
       } else if (difference >= 0) {
         movement = movement.dotProduct(0);
+        sprite.setAnimation('standing');
+      } else {
+        if (sprite.getAnimation() !== 'leaping') {
+          sprite.setAnimation('leaping');
+        }
       }
     }
 
@@ -80,6 +98,7 @@ export function Tiger(scene, x, y, player, lightSources) {
     state = FLEEING;
     startedFleeing = new Date();
     saySomething();
+    sprite.setAnimation('leaping');
   }
 
   function setChasing() {
