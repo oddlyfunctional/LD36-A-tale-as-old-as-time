@@ -1,7 +1,19 @@
 import { Sprite } from './sprite';
 
 export function Tree(scene, lightSource, x, y) {
-  const tree = Sprite(scene, './imgs/tree.png', x, y, 200, 300);
+  const tree = Sprite(scene, './imgs/tree.png', x, y, 200, 300, 200, 300, {
+    dry: {
+      frames: [0],
+      speed: 0
+    },
+
+    burning: {
+      frames: [1],
+      speed: 0,
+      loop: true
+    }
+  });
+  tree.setAnimation('dry');
 
   return Object.assign({}, tree, {
     constructor: Tree,

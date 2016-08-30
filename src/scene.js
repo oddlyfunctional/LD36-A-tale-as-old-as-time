@@ -52,6 +52,14 @@ export function Scene(canvas) {
     createLightSource(500, FLOOR - 150)
   ];
   const trees = lightSources.map(light => Tree(scene, light, light.position.x - 100, light.position.y - 150));
+  trees.forEach(tree => {
+    const lightSource = tree.lightSource;
+    lightSource.isEnabled = () => lightSource.enabled;
+    lightSource.setEnabled = value => {
+      lightSource.enabled = value;
+      tree.setAnimation('burning');
+    }
+  });
 
   let initialLightSource = lightSources[0];
   let actionStatus = 'Walk to';
@@ -68,7 +76,7 @@ export function Scene(canvas) {
     color: 'rgba(0,0,0,0.7)'
   })
 
-  const tiger = Tiger(scene, 0, FLOOR, player, lightSources);
+  const tiger = Tiger(scene, 0, FLOOR + 20, player, lightSources);
 
   let targets = [twigTrigger].concat(pilesOfRocks);
   let objects = trees.concat(pilesOfRocks).concat([player, tiger, twigTrigger]);
@@ -77,10 +85,10 @@ export function Scene(canvas) {
 
   function update(timeElapsed) {
     if (
-      !initialLightSource.enabled &&
+      !initialLightSource.isEnabled() &&
       Math.abs(initialLightSource.position.x - player.getCenterX()) < 100
     ) {
-      initialLightSource.enabled = true;
+      initialLightSource.setEnabled(true);
       player.setSpeech("WOW! Sun, is that you?");
     }
 

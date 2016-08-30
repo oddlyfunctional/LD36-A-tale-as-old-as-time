@@ -59,7 +59,7 @@ export function Rock(scene) {
           const pileOfRocks = hitObjects.find(object => object.constructor == PileOfRocks);
           if (pileOfRocks) {
             let lightSourcesNearby = scene.lightSourcesInRadius(pileOfRocks.getCenterVector(), 100);
-            lightSourcesNearby.forEach(light => light.enabled = true);
+            lightSourcesNearby.forEach(light => light.setEnabled(true));
           }
         }
       )
