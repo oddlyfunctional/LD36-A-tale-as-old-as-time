@@ -1,6 +1,6 @@
 import { Scene } from './scene';
 
-window.DEBUG = true;
+window.DEBUG = false;
 const canvas = document.getElementById('root');
 const context = canvas.getContext('2d');
 const scene = Scene(canvas);
