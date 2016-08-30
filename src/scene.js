@@ -8,6 +8,7 @@ import { PileOfRocks } from './pileOfRocks';
 import { Tiger } from './tiger';
 import { Tree } from './tree';
 import { TwigTrigger } from './twigTrigger';
+import { Trigger } from './trigger';
 import { Illuminated } from './vendors/illuminated';
 const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
 
@@ -89,6 +90,18 @@ export function Scene(canvas) {
   }
 
   function render(context) {
+    if (player.getX() < 200) {
+      context.fillStyle = "black";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      context.font = "14px Monospace";
+      context.fillStyle = "white";
+      const gameOverMessage = "And so he discovered fire and changed the world...";
+      context.fillText(gameOverMessage, canvas.width / 2 - gameOverMessage.length / 2 * 14, canvas.height / 2 - 7);
+
+      return;
+    }
+
     background.render(context);
     objects.forEach(sprite => sprite.render(context));
 

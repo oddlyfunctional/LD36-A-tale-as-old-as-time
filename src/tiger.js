@@ -3,6 +3,7 @@ import { Body } from './body';
 import { Vector } from './vector';
 
 export function Tiger(scene, x, y, player, lightSources) {
+  const MINIMUM_DISTANCE_TO_FIRE = 140;
   const height = 80;
   y -= height;
   let sprite = Sprite(scene, '/imgs/tiger.png', x, y, 120, height);
@@ -50,7 +51,7 @@ export function Tiger(scene, x, y, player, lightSources) {
     if (closestLightSource) {
       let lightPosition = new Vector(closestLightSource.position.x, closestLightSource.position.y);
       let distance = Math.abs(lightPosition.getX() - newCenter.getX()) - radius(sprite);
-      const difference = 120 - distance;
+      const difference = MINIMUM_DISTANCE_TO_FIRE - distance;
       if (difference > 6) {
         movement = movement.dotProduct(-1);
       } else if (difference >= 0) {

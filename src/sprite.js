@@ -122,8 +122,8 @@ export function Sprite(
       context.save();
       context.font = "14px Monospace";
       context.shadowColor = "black";
-      context.shadowOffsetX = 1; 
-      context.shadowOffsetY = 1; 
+      context.shadowOffsetX = 1;
+      context.shadowOffsetY = 1;
       context.fillStyle = "bold";
       context.fillStyle = "yellow";
       context.fillText(speech, getCenterX() - speech.length / 2 * 14, y - 50);
