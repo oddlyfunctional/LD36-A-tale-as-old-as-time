@@ -23,6 +23,7 @@ export function Rock(scene) {
 
   function onUse(item, coordinates) {
     scene.getInventory().remove(rock);
+    let player = scene.getPlayer();
 
     let anotherRock = scene
                         .findObjectsAt(coordinates)
@@ -31,11 +32,11 @@ export function Rock(scene) {
     if (anotherRock) {
       scene.getInventory().remove(anotherRock);
       scene.getInventory().push(Flint(scene));
+      player.setSpeech('Two rocks are better than one.');
       return;
     }
 
     let projectileSprite = item.getSprite().copy();
-    let player = scene.getPlayer();
     projectileSprite.setCenterX(player.getCenterX());
     projectileSprite.setCenterY(player.getCenterY() - 50);
     let difference = coordinates.x - projectileSprite.getCenterX();

@@ -41,7 +41,7 @@ export function Flint(scene) {
 
     switch (event) {
       case 'hover':
-        let actionStatus = 'Use Flint';
+        let actionStatus = 'Use Lighter';
 
         if (flint.isDragging()) {
           const objectUnderCursor = scene.findObjectsAt(coordinates, true).find(object => object != flint);

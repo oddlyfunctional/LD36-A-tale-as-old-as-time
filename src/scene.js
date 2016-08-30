@@ -41,6 +41,7 @@ export function Scene(canvas) {
   const player = Player(scene, 600, FLOOR);
   player.setTarget(Vector(1100, FLOOR));
   player.setSpeech('AHHHHHHHHH!', 3000);
+  let gameOver = false;
 
   const inventory = Inventory(4);
   const pilesOfRocks = [
@@ -104,17 +105,23 @@ export function Scene(canvas) {
 
     let distance = 120 + Math.sin(Date.now() * 0.001) * 10;
     lightSources.filter(light => light.enabled).forEach(light => light.distance = distance);
+
+    if (player.getX() < 100) {
+      gameOver = true;
+    }
   }
 
   function render(context) {
-    if (player.getX() < 100) {
+    if (true || gameOver) {
       context.fillStyle = "black";
       context.fillRect(0, 0, canvas.width, canvas.height);
 
       context.font = "14px Monospace";
       context.fillStyle = "white";
-      const gameOverMessage = "And so he discovered fire and changed the world...";
-      context.fillText(gameOverMessage, canvas.width / 2 - gameOverMessage.length / 2 * 14, canvas.height / 2 - 7);
+      const gameOverMessage1 = "And so that small hominid conquered the power of the Sun,";
+      const gameOverMessage2 = "forever changing the fate of his tribe.";
+      context.fillText(gameOverMessage1, canvas.width / 2 - gameOverMessage1.length / 2 * 10, canvas.height / 2 - 14);
+      context.fillText(gameOverMessage2, canvas.width / 2 - gameOverMessage2.length / 2 * 10, canvas.height / 2 + 14);
 
       return;
     }

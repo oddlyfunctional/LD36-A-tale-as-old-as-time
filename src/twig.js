@@ -36,7 +36,7 @@ export function Twig(scene) {
   function ignite() {
     scene.getInventory().remove(twig);
     scene.getInventory().push(Torch(scene));
-    scene.getPlayer().setSpeech("I am the lightbringer!");
+    scene.getPlayer().setSpeech("I am the lightbringer! I carry the Sun, fear me!");
   }
 
   function trigger(event, coordinates) {
