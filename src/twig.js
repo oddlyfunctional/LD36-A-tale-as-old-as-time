@@ -6,7 +6,7 @@ import { Torch } from './torch';
 
 export function Twig(scene) {
   const inventoryItem = InventoryItem(
-    Sprite(scene, '/imgs/twig.png', null, null, 30, 60),
+    Sprite(scene, './imgs/twig.png', null, null, 30, 60),
     onUse
   );
 

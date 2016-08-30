@@ -6,7 +6,7 @@ export function Player(scene, x, y) {
   const MINIMUM_DISTANCE_TO_TIGER = 100;
   const height = 80;
   y -= height;
-  let sprite = Sprite(scene, '/imgs/caveman.png', x, y, 60, height);
+  let sprite = Sprite(scene, './imgs/caveman.png', x, y, 60, height);
   let body = Body(scene, sprite);
   let target, destinationCallback;
 

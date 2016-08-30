@@ -6,7 +6,7 @@ export function Tiger(scene, x, y, player, lightSources) {
   const MINIMUM_DISTANCE_TO_FIRE = 140;
   const height = 80;
   y -= height;
-  let sprite = Sprite(scene, '/imgs/tiger.png', x, y, 120, height);
+  let sprite = Sprite(scene, './imgs/tiger.png', x, y, 120, height);
   let body = Body(scene, sprite, false, 6);
 
   const CHASING = 'chasing';

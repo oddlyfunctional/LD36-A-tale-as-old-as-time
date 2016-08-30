@@ -5,7 +5,7 @@ import { Twig } from './twig';
 
 export function Flint(scene) {
   const inventoryItem = InventoryItem(
-    Sprite(scene, '/imgs/flint.png', null, null, 50, 50),
+    Sprite(scene, './imgs/flint.png', null, null, 50, 50),
     onUse
   );
 

@@ -3,7 +3,7 @@ import { Sprite } from './sprite';
 import { Twig } from './twig';
 
 export function TwigTrigger(scene, x, y) {
-  const triggerObject = Trigger(Sprite(scene, '/imgs/twig.png', x, y - 50, 30, 60), (item) => {
+  const triggerObject = Trigger(Sprite(scene, './imgs/twig.png', x, y - 50, 30, 60), (item) => {
     scene.getPlayer().setTarget(
       item.getCenterVector(),
       () => {

@@ -9,7 +9,7 @@ import { Flint } from './flint';
 export function Rock(scene) {
   const MAX_DISTANCE = 300;
   const inventoryItem = InventoryItem(
-    Sprite(scene, '/imgs/rock.png', null, null, 24, 24),
+    Sprite(scene, './imgs/rock.png', null, null, 24, 24),
     onUse
   );
 
