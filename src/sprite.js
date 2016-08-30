@@ -22,7 +22,7 @@ export function Sprite(
   let flipped = 1;
   let currentAnimation;
   let currentFrame;
-  let lastFrameAt = Date.now();
+  let lastFrameAt;
   setAnimation('default');
   let speech;
   let eraseSpeechAt;
@@ -67,6 +67,7 @@ export function Sprite(
     setFlipped,
     overlaps,
     setAnimation,
+    getAnimation,
     getScene,
     setSpeech,
     getSpeech
@@ -88,17 +89,17 @@ export function Sprite(
     context.scale(flipped, 1);
 
     let now = Date.now();
-    if (now - lastFrameAt > currentAnimation.speed) {
+    if (now - lastFrameAt > getCurrentAnimation().speed) {
       lastFrameAt = now;
 
-      if (currentAnimation.loop) {
-        currentFrame = (currentFrame + 1) % currentAnimation.frames.length;
+      if (getCurrentAnimation().loop) {
+        currentFrame = (currentFrame + 1) % getCurrentAnimation().frames.length;
       } else {
-        currentFrame += currentFrame + 1 >= currentAnimation.frames.length ? 0 : 1;
+        currentFrame += currentFrame + 1 >= getCurrentAnimation().frames.length ? 0 : 1;
       }
     }
 
-    let frameX = currentAnimation.frames[currentFrame] * frameWidth;
+    let frameX = getCurrentAnimation().frames[currentFrame] * frameWidth;
 
     context.drawImage(image, frameX, 0, frameWidth, frameHeight, 0, 0, width * flipped, height);
 
@@ -197,9 +198,13 @@ export function Sprite(
   }
 
   function setAnimation(animation) {
-    currentAnimation = animations[animation];
-    currentFrame = currentAnimation && currentAnimation.frames[0];
+    currentAnimation = animation;
+    currentFrame = getCurrentAnimation() && getCurrentAnimation().frames[0];
+    lastFrameAt = Date.now();
   }
+
+  function getAnimation() { return currentAnimation; }
+  function getCurrentAnimation() { return animations[currentAnimation]; }
 
   function getScene() { return scene; }
 

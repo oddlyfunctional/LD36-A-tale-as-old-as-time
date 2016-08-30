@@ -6,7 +6,18 @@ export function Player(scene, x, y) {
   const MINIMUM_DISTANCE_TO_TIGER = 100;
   const height = 80;
   y -= height;
-  let sprite = Sprite(scene, './imgs/caveman.png', x, y, 60, height);
+  let sprite = Sprite(scene, './imgs/caveman.png', x, y, 60, height, 150, 200, {
+    standing: {
+      frames: [0],
+      speed: 0
+    },
+    running: {
+      frames: [0, 1],
+      speed: 500,
+      loop: true
+    }
+  });
+  sprite.setAnimation('running');
   let body = Body(scene, sprite);
   let target, destinationCallback;
 
@@ -41,6 +52,12 @@ export function Player(scene, x, y) {
       } else {
         body.moveBy(body.movementTo(target));
       }
+
+      if (sprite.getAnimation() == 'standing') {
+        sprite.setAnimation('running');
+      }
+    } else {
+      sprite.setAnimation('standing');
     }
 
     sprite.update(timeElapsed);
