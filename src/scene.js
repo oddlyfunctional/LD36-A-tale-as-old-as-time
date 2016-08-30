@@ -32,6 +32,7 @@ export function Scene(canvas) {
   };
 
   const FLOOR = 350;
+  const background = Sprite(scene, './imgs/background.png', 0, 0, canvas.width, canvas.height);
   const player = Player(scene, 600, FLOOR);
   player.setTarget(Vector(1100, FLOOR));
   player.setSpeech('AHHHHHHHHH!', 3000);
@@ -88,6 +89,7 @@ export function Scene(canvas) {
   }
 
   function render(context) {
+    background.render(context);
     objects.forEach(sprite => sprite.render(context));
 
     //lightings.forEach(lighting => lighting.compute(context.canvas.width, context.canvas.height));
