@@ -103,7 +103,6 @@ export function Sprite(
     }
 
     let frameX = getCurrentAnimation().frames[currentFrame] * frameWidth;
-    console.log(this.constructor.name, frameX)
 
     context.translate(frameWidth / 2, frameHeight / 2);
     context.rotate(getRotation());
