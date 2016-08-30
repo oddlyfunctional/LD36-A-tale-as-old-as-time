@@ -61,7 +61,10 @@ export function Scene(canvas) {
     }
   });
 
-  let initialLightSource = lightSources[0];
+  const initialLightSource = lightSources[0];
+  const lightning = Sprite(scene, './imgs/lightning.png', 1050, 0, 100, 300);
+  let lightningFinishedAt;
+  const lightningDuration = 500;
   let actionStatus = 'Walk to';
 
   //let lightings = [
@@ -90,6 +93,7 @@ export function Scene(canvas) {
     ) {
       initialLightSource.setEnabled(true);
       player.setSpeech("WOW! Sun, is that you?");
+      lightningFinishedAt = Date.now() + lightningDuration;
     }
 
     inventory.concat(objects).forEach(object => object.update(timeElapsed));
@@ -113,6 +117,12 @@ export function Scene(canvas) {
 
     background.render(context);
     objects.forEach(sprite => sprite.render(context));
+
+    if (lightningFinishedAt) {
+      if (Date.now() <= lightningFinishedAt) {
+        lightning.render(context);
+      }
+    }
 
     //lightings.forEach(lighting => lighting.compute(context.canvas.width, context.canvas.height));
     darkmask.compute(context.canvas.width, context.canvas.height);
