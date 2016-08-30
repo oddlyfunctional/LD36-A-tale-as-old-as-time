@@ -5,9 +5,16 @@ const { Lamp, Lighting, DarkMask, Vec2 } = Illuminated;
 
 export function Torch(scene) {
   const inventoryItem = InventoryItem(
-    Sprite(scene, './imgs/torch.png', null, null, 30, 60),
+    Sprite(scene, './imgs/torch.png', null, null, 30, 60, 30, 60, {
+      burning: {
+        frames: [0, 1],
+        speed: 500,
+        loop: true
+      }
+    }),
     onUse
   );
+  inventoryItem.setAnimation('burning');
 
   const torch = Object.assign({}, inventoryItem, {
     constructor: Torch,

@@ -103,7 +103,7 @@ export function Scene(canvas) {
   }
 
   function render(context) {
-    if (player.getX() < 200) {
+    if (player.getX() < 100) {
       context.fillStyle = "black";
       context.fillRect(0, 0, canvas.width, canvas.height);
 
